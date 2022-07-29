@@ -1,0 +1,132 @@
+package db
+
+import (
+	"context"
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+)
+
+type Repo[T any] interface {
+	GetAllModels() ([]T, error)
+	GetModelById(id string) (*T, error)
+	CreateEntity(entity T) (*T, error)
+	UpdateEntityById(entity T, id string) (*T, error)
+	DeleteEntityById(id string) (error)
+}
+
+type model[T any] struct {
+	db *mongo.Collection
+	entity T
+}
+
+func NewModel[T any](db *mongo.Client, database string, collection string, entity T) Repo[T] {
+	return &model[T]{
+		db: db.Database(database).Collection(collection),
+		entity: entity,
+	}
+}
+
+func (model *model[T]) GetAllModels() ([]T, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	
+	defer cancel()
+
+	/// Getting all entities
+	// Creating query
+	query := bson.D{{}}
+
+	cursor, err := model.db.Find(ctx, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var entities []T
+
+	// Iterate and decode
+	err = cursor.All(ctx, &entities)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return entities, nil
+}
+
+func (model *model[T]) GetModelById(id string) (*T, error) {
+
+	// Creating context
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+
+	defer cancel()
+
+	// Creating query
+	query := bson.D{{Key: "_id", Value: id}}
+
+	// Querying
+	result := model.db.FindOne(ctx, query)
+
+	// Convert to entity
+	foundEntity := new(T)
+	result.Decode(foundEntity)
+
+	// Returning
+	return foundEntity, nil
+}
+
+func (model *model[T]) CreateEntity(entity T) (*T, error) {
+	// Creating context
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+
+	defer cancel()
+
+	// Creating the user
+	insertionResult, err := model.db.InsertOne(ctx, entity)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// Getting inserted data
+	filter := bson.D{{Key: "_id", Value: insertionResult.InsertedID}}
+
+	// Query
+	createdRecord := model.db.FindOne(ctx, filter)
+
+	// Decode to entity
+	createdEntity := new(T)
+	createdRecord.Decode(createdEntity)
+
+	return createdEntity, nil
+}
+
+func (model *model[T]) UpdateEntityById(entity T, id string) (*T, error) {
+
+	// Creating context
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+
+	defer cancel()
+	// Creating query
+	filter := bson.D{{Key: "_id", Value: id}}
+
+}
+
+func (model *model[T]) DeleteEntityById(id string) (error) {
+	// Creating context
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+
+	defer cancel()
+
+	// Creating delete filter
+	filter := bson.D{{Key: "_id", Value: id}}
+
+	_, err := model.db.DeleteOne(ctx, filter)
+
+	if err != nil {
+		return err;
+	}
+
+	return nil
+}
