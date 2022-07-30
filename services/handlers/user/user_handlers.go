@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/hmrbcnto/go-net-http/entities"
-	"github.com/hmrbcnto/go-net-http/middlewares"
+	"github.com/hmrbcnto/prescription-api/entities"
+	"github.com/hmrbcnto/prescription-api/middlewares"
 )
 
 func (userHandler *user_http_handler) createUser(w http.ResponseWriter, r *http.Request) {

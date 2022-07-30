@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/hmrbcnto/go-net-http/app/server"
-	"github.com/hmrbcnto/go-net-http/config"
-	db "github.com/hmrbcnto/go-net-http/infastructure/db/mongo"
+	"github.com/hmrbcnto/prescription-api/app/server"
+	"github.com/hmrbcnto/prescription-api/config"
+	db "github.com/hmrbcnto/prescription-api/infastructure/db/mongo"
 )
 
 func main() {

@@ -1,8 +1,8 @@
 package usecases
 
 import (
-	"github.com/hmrbcnto/go-net-http/entities"
-	"github.com/hmrbcnto/go-net-http/infastructure/db/mongo/user_repo"
+	"github.com/hmrbcnto/prescription-api/entities"
+	"github.com/hmrbcnto/prescription-api/infastructure/db/mongo/user_repo"
 )
 
 type UserUsecase interface {

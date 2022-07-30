@@ -5,7 +5,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/hmrbcnto/go-net-http/entities"
+	"github.com/hmrbcnto/prescription-api/entities"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -20,7 +20,7 @@ type authRepo struct {
 
 func NewRepo(db *mongo.Client) AuthRepo {
 	return &authRepo{
-		db: db.Database("leniApi").Collection("users"),
+		db: db.Database("prescription-api").Collection("users"),
 	}
 }
 

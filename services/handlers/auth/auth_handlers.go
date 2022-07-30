@@ -5,12 +5,12 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/hmrbcnto/go-net-http/entities"
+	"github.com/hmrbcnto/prescription-api/models"
 )
 
 func (authHandler *auth_http_handler) login(w http.ResponseWriter, r *http.Request) {
 	// Get request body
-	loginData := new(entities.LoginStruct)
+	loginData := new(models.LoginStruct)
 	err := json.NewDecoder(r.Body).Decode(loginData)
 
 	if err != nil {

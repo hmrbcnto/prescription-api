@@ -1,9 +1,10 @@
-package entities
+package models
 
 import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/hmrbcnto/prescription-api/entities"
 )
 
 type LoginStruct struct {
@@ -17,7 +18,7 @@ type Claims struct {
 }
 
 type LoginReturn struct {
-	User User
+	User entities.User
 	TokenString string
 	ExpirationTime time.Time
 }

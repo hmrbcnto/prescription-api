@@ -11,8 +11,8 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	router "github.com/hmrbcnto/go-net-http/app/server/routes"
-	"github.com/hmrbcnto/go-net-http/middlewares"
+	router "github.com/hmrbcnto/prescription-api/app/server/routes"
+	"github.com/hmrbcnto/prescription-api/middlewares"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

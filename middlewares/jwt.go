@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/hmrbcnto/go-net-http/entities"
+	"github.com/hmrbcnto/prescription-api/entities"
 )
 
 func CheckForToken(h http.Handler) http.Handler {

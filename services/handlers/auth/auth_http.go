@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/hmrbcnto/go-net-http/services/usecases"
+	"github.com/hmrbcnto/prescription-api/services/usecases"
 )
 
 type AuthHTTPHandler interface {

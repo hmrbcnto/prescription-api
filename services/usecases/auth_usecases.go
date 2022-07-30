@@ -6,12 +6,12 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/hmrbcnto/go-net-http/entities"
-	"github.com/hmrbcnto/go-net-http/infastructure/db/mongo/auth_repo"
+	"github.com/hmrbcnto/prescription-api/infastructure/db/mongo/auth_repo"
+	"github.com/hmrbcnto/prescription-api/models"
 )
 
 type AuthUsecase interface {
-	Login(username string, password string) (*entities.LoginReturn, error)
+	Login(username string, password string) (*models.LoginReturn, error)
 }
 
 type authUsecase struct {
@@ -24,7 +24,7 @@ func NewAuthUsecase(authRepo auth_repo.AuthRepo) AuthUsecase {
 	}
 }
 
-func (authUsecase *authUsecase) Login(username string, password string) (*entities.LoginReturn, error) {
+func (authUsecase *authUsecase) Login(username string, password string) (*models.LoginReturn, error) {
 	// Hash password input here
 
 	user, err := authUsecase.authRepo.Login(username, password)
@@ -40,7 +40,7 @@ func (authUsecase *authUsecase) Login(username string, password string) (*entiti
 	// here, we have kept it as 5 minutes
 	expirationTime := time.Now().Add(15 * time.Minute)
 
-	claims := &entities.Claims{
+	claims := &models.Claims{
 		Username: user.Username,
 		StandardClaims: jwt.StandardClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
@@ -57,7 +57,7 @@ func (authUsecase *authUsecase) Login(username string, password string) (*entiti
 		return nil, err
 	}
 
-	return &entities.LoginReturn{
+	return &models.LoginReturn{
 		User: *user,
 		TokenString: tokenString,
 		ExpirationTime: expirationTime,

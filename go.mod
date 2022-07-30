@@ -1,4 +1,4 @@
-module github.com/hmrbcnto/go-net-http
+module github.com/hmrbcnto/prescription-api
 
 go 1.18
 

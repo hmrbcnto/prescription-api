@@ -2,11 +2,11 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/hmrbcnto/go-net-http/infastructure/db/mongo/auth_repo"
-	"github.com/hmrbcnto/go-net-http/infastructure/db/mongo/user_repo"
-	auth_handler "github.com/hmrbcnto/go-net-http/services/handlers/auth"
-	user_handler "github.com/hmrbcnto/go-net-http/services/handlers/user"
-	"github.com/hmrbcnto/go-net-http/services/usecases"
+	"github.com/hmrbcnto/prescription-api/infastructure/db/mongo/auth_repo"
+	"github.com/hmrbcnto/prescription-api/infastructure/db/mongo/user_repo"
+	auth_handler "github.com/hmrbcnto/prescription-api/services/handlers/auth"
+	user_handler "github.com/hmrbcnto/prescription-api/services/handlers/user"
+	"github.com/hmrbcnto/prescription-api/services/usecases"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
