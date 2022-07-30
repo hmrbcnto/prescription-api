@@ -1,6 +1,6 @@
 package entities
 
-type User struct {
+type Doctor struct {
 	ID       string `json:"_id"`
 	Username string `json:"username"`
 	Password string `json:"password"`

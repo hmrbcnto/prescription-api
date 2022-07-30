@@ -18,7 +18,7 @@ type Claims struct {
 }
 
 type LoginReturn struct {
-	User entities.User
+	User entities.Doctor
 	TokenString string
 	ExpirationTime time.Time
 }

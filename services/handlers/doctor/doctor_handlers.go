@@ -9,10 +9,10 @@ import (
 	"github.com/hmrbcnto/prescription-api/middlewares"
 )
 
-func (userHandler *user_http_handler) createUser(w http.ResponseWriter, r *http.Request) {
+func (doctorHandler *doctor_http_handler) createDoctor(w http.ResponseWriter, r *http.Request) {
 	// Get http request body
-	user := new(entities.User)
-	err := json.NewDecoder(r.Body).Decode(user)
+	doctor := new(entities.Doctor)
+	err := json.NewDecoder(r.Body).Decode(doctor)
 
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -23,7 +23,7 @@ func (userHandler *user_http_handler) createUser(w http.ResponseWriter, r *http.
 	w.Header().Set("Content-Type", "application/json")
 	jsonWriter := json.NewEncoder(w)
 
-	createdUser, err := userHandler.userUsecase.CreateUser(user)
+	createdUser, err := doctorHandler.doctorUsecase.CreateDoctor(doctor)
 
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -33,10 +33,10 @@ func (userHandler *user_http_handler) createUser(w http.ResponseWriter, r *http.
 	jsonWriter.Encode(createdUser)
 }
 
-func (userHandler *user_http_handler) getAllUsers(w http.ResponseWriter, r *http.Request) {
+func (doctorHandler *doctor_http_handler) getAllDoctors(w http.ResponseWriter, r *http.Request) {
 	// Get all users
 	w.Header().Set("Content-Type", "application/json")
-	users, err := userHandler.userUsecase.GetAllUsers()
+	users, err := doctorHandler.doctorUsecase.GetAllDoctors()
 
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -47,7 +47,7 @@ func (userHandler *user_http_handler) getAllUsers(w http.ResponseWriter, r *http
 	jsonWriter.Encode(users)
 }
 
-func (userHandler *user_http_handler) getUserById(w http.ResponseWriter, r *http.Request) {
+func (doctorHandler *doctor_http_handler) getDoctorById(w http.ResponseWriter, r *http.Request) {
 	// Set header
 	w.Header().Set("Content-Type", "application/json")
 	jsonWriter := json.NewEncoder(w)
@@ -56,7 +56,7 @@ func (userHandler *user_http_handler) getUserById(w http.ResponseWriter, r *http
 	params := mux.Vars(r)
 	userId := params["id"]
 
-	user, err := userHandler.userUsecase.GetUserById(userId)
+	user, err := doctorHandler.doctorUsecase.GetDoctorById(userId)
 
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -66,12 +66,12 @@ func (userHandler *user_http_handler) getUserById(w http.ResponseWriter, r *http
 	jsonWriter.Encode(user)
 }
 
-func (userHandler *user_http_handler) InitRoutes(mux *mux.Router) {
-	subRouter := mux.PathPrefix("").Subrouter()
+func (doctorHandler *doctor_http_handler) InitRoutes(mux *mux.Router) {
+	subRouter := mux.PathPrefix("/doctors").Subrouter()
 
 	// Generate routes
 	subRouter.Use(middlewares.CheckForToken)
-	subRouter.HandleFunc("/users", userHandler.getAllUsers).Methods("GET")
-	subRouter.HandleFunc("/users/id", userHandler.getUserById).Methods("GET")
-	subRouter.HandleFunc("/users", userHandler.createUser).Methods("POST")
+	subRouter.HandleFunc("", doctorHandler.getAllDoctors).Methods("GET")
+	subRouter.HandleFunc("/id", doctorHandler.getDoctorById).Methods("GET")
+	subRouter.HandleFunc("", doctorHandler.createDoctor).Methods("POST")
 }

@@ -11,7 +11,7 @@ import (
 )
 
 type AuthRepo interface {
-	Login(username string, password string) (*entities.User, error)
+	Login(username string, password string) (*entities.Doctor, error)
 }
 
 type authRepo struct {
@@ -20,11 +20,11 @@ type authRepo struct {
 
 func NewRepo(db *mongo.Client) AuthRepo {
 	return &authRepo{
-		db: db.Database("prescription-api").Collection("users"),
+		db: db.Database("prescription-api").Collection("doctors"),
 	}
 }
 
-func (ar *authRepo) Login(username string, password string) (*entities.User, error) {
+func (ar *authRepo) Login(username string, password string) (*entities.Doctor, error) {
 
 	// Creating context
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
@@ -39,18 +39,18 @@ func (ar *authRepo) Login(username string, password string) (*entities.User, err
 	result := ar.db.FindOne(ctx, query)
 
 	// Unmarshal/Decode into user object
-	foundUser := new(entities.User)
-	err := result.Decode(foundUser)
+	foundDoctor := new(entities.Doctor)
+	err := result.Decode(foundDoctor)
 
 	if err != nil {
 		return nil, err
 	}
 
 	// Check if user's password matches given password
-	if foundUser.Password != password {
+	if foundDoctor.Password != password {
 		return nil, errors.New("invalid password")
 	}
 
 	// Returning
-	return foundUser, nil
+	return foundDoctor, nil
 }
