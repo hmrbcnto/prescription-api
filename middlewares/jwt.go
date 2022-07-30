@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/hmrbcnto/prescription-api/entities"
+	"github.com/hmrbcnto/prescription-api/models"
 )
 
 func CheckForToken(h http.Handler) http.Handler {
@@ -27,7 +27,7 @@ func CheckForToken(h http.Handler) http.Handler {
 		tokenString := c.Value
 
 		// Initialize a new claims instance
-		claims := &entities.Claims{}
+		claims := &models.Claims{}
 
 		// Parse the JWT string and store the result in `claims`.
 		// Note that we are passing the key in this method as well. This method will return an error
