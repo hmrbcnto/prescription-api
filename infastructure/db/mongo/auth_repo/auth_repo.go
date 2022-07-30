@@ -32,7 +32,6 @@ func (ar *authRepo) Login(username string, password string) (*entities.Doctor, e
 	defer cancel()
 
 	// Creating query
-	// query := bson.M{"username": username}
 	query := bson.D{{Key: "username", Value: username}}
 
 	// Querying
