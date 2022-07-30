@@ -93,6 +93,11 @@ func (dr *doctorRepo) GetDoctorById(doctorId string) (*entities.Doctor, error) {
 
 	// Querying
 	result := dr.db.FindOne(ctx, query)
+	err := result.Err()
+
+	if err != nil {
+		return nil, err
+	}
 
 	// Converting to user entity
 	foundUser := new(entities.Doctor)
